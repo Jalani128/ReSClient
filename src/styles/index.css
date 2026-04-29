@@ -1,0 +1,47 @@
+@import './tailwind.css';
+@import './fonts.css';
+@import './theme.css';
+@import './components.css';
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-400;
+  }
+
+  button, a, input, select, textarea {
+    @apply transition-all duration-200;
+  }
+
+  button:disabled, input:disabled, select:disabled, textarea:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+@media print {
+  .no-print {
+    @apply hidden;
+  }
+}
