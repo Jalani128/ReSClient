@@ -1,23 +1,5 @@
 import axios from 'axios';
 
-const client = axios.create({
-  baseURL: 'http://localhost:4000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Har request mein token add karo
-client.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-export default client;import axios from 'axios';
-
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 const client = axios.create({
@@ -35,7 +17,6 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-// ✅ Appointments API
 export const appointmentsAPI = {
   schedule: (data: any) => client.post('/appointments', data),
   getAll: () => client.get('/appointments'),
@@ -44,7 +25,6 @@ export const appointmentsAPI = {
   delete: (id: string) => client.delete(`/appointments/${id}`),
 };
 
-// ✅ Properties API
 export const propertiesAPI = {
   getAll: (params?: any) => client.get('/properties', { params }),
   getById: (id: string) => client.get(`/properties/${id}`),
@@ -53,7 +33,6 @@ export const propertiesAPI = {
   delete: (id: string) => client.delete(`/properties/${id}`),
 };
 
-// ✅ Inquiries API
 export const inquiriesAPI = {
   create: (data: any) => client.post('/inquiries', data),
   getAll: () => client.get('/inquiries'),
