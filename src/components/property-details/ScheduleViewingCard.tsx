@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { appointmentsAPI } from '../../services/api';
 
+import axios from 'axios';
+
+const appointmentsAPI = {
+  schedule: (data: any) => axios.post(
+    `${import.meta.env.VITE_API_URL || 'http://localhost:4000/api'}/appointments`,
+    data
+  ),
+};
+
 interface ScheduleViewingCardProps {
   property: {
     name: string;
