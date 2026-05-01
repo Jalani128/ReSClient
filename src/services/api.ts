@@ -39,4 +39,16 @@ export const inquiriesAPI = {
   getAll: () => client.get('/inquiries'),
 };
 
+export const blogsAPI = {
+  getAll: () => client.get('/blogs'),
+  getPublished: () => client.get('/blogs/published'),
+  getById: (id: string) => client.get(`/blogs/${id}`),
+  getBySlug: (slug: string) => client.get(`/blogs/slug/${slug}`),
+};
+
+export const teamAPI = {
+  getAll: () => client.get('/team'),
+  getById: (id: string) => client.get(`/team/${id}`),
+};
+
 export default client;

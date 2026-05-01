@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle } from 'lucide-react';
+import { inquiriesAPI } from '@/services/api';
 
 const ContactFormCard: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const ContactFormCard: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,9 +22,25 @@ const ContactFormCard: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
+    setError(null);
+    try {
+      // Prepare data for the API
+      const inquiryData = {
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.inquiryType,
+        message: formData.message,
+      };
+
+      await inquiriesAPI.create(inquiryData);
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error('Error submitting inquiry:', err);
+      setError(err.response?.data?.message || 'Failed to submit inquiry. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -156,6 +174,13 @@ const ContactFormCard: React.FC = () => {
             </>
           )}
         </button>
+
+        {/* Error message */}
+        {error && (
+          <div className="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
+            <p>{error}</p>
+          </div>
+        )}
       </form>
     </div>
   );
